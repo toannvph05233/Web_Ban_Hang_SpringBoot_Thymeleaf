@@ -3,21 +3,7 @@
 <head th:replace="/layout :: head"></head>
 <body>
 
-<div th:fragment="header">
-    <div class="container-fluid header" id="header" style="border-bottom: solid 4px lightgrey">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-lg-2 col-xl-2 block-image">
-            </div>
-            <div class="col-xs-12 col-sm-12 col-lg-8 col-xl-8 block-background">
-                <h1 class="name-shop">Shop HQ</h1>
-                <br>
-                <div class="container-ef">
-                    <div class="text"><span>Chào mừng bạn đến với shop HQ chuyên Adidas</span></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<div th:replace="/layout :: header"></div>
 
 <div class="container-fluid menu-navbar">
     <div class="container">
@@ -44,7 +30,7 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-9 product">
             <div id="form">
-                <form th:action="@{/registration}" th:object="${user} " method="POST" enctype="multipart/form-data">
+                <form th:action="@{/register}" th:object="${user} " method="POST" enctype="multipart/form-data">
                     <div  class="form-group">
                         <label>Account</label>
                         <th:block th:if="${#fields.hasErrors('account')}" th:errors="*{account}"></th:block>

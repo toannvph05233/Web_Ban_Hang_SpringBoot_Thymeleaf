@@ -50,7 +50,7 @@ public class HomeController {
 
     @GetMapping("/")
     public ModelAndView listProduct(@RequestParam("regex") Optional<String> regex,
-                                    @SortDefault(value = {"description"}) @PageableDefault(value = 20) Pageable pageable) {
+                                    @SortDefault(value = {"description"}) @PageableDefault(value = 12) Pageable pageable) {
         Page<Product> products;
         ModelAndView modelAndView = new ModelAndView("home/index");
         if (regex.isPresent()) {
@@ -72,13 +72,13 @@ public class HomeController {
 
     @GetMapping("/type/{type}")
     public ModelAndView listProductByType(@PathVariable("type") String type,
-                                          @SortDefault(value = {"description"}) @PageableDefault(value = 100) Pageable pageable){
+                                          @SortDefault(value = {"description"}) @PageableDefault(value = 100) Pageable pageable) {
 
         Page<Product> products;
         ModelAndView modelAndView = new ModelAndView("home/index");
-        if(type.equals("áo")){
+        if (type.equals("áo")) {
             products = productService.findAllByTypeProduct(typeProductService.getTypeProduct(1L), pageable);
-        } else if (type.equals("quần")){
+        } else if (type.equals("quần")) {
             products = productService.findAllByTypeProduct(typeProductService.getTypeProduct(2L), pageable);
         } else {
             products = productService.findAllByTypeProduct(typeProductService.getTypeProduct(3L), pageable);
@@ -92,15 +92,20 @@ public class HomeController {
         return new ModelAndView("home/accessDenied");
     }
 
-    @GetMapping("/registration")
+    @GetMapping("/register")
     public ModelAndView registrationUser() {
         return new ModelAndView("home/registration", "user", new UserInfo());
     }
 
-    @PostMapping("/registration")
+    @GetMapping("/login")
+    public ModelAndView login() {
+        return new ModelAndView("home/login");
+    }
+
+    @PostMapping("/register")
     public ModelAndView registrationAccount(@Valid @ModelAttribute("user") UserInfo userInfo, BindingResult bindingResult,
-                                            @SortDefault(value = {"id"}) @PageableDefault(value = 20) Pageable pageable ) {
-        if(bindingResult.hasErrors()){
+                                            @SortDefault(value = {"id"}) @PageableDefault(value = 20) Pageable pageable) {
+        if (bindingResult.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView("home/registration");
             modelAndView.addObject(userInfo);
             return modelAndView;

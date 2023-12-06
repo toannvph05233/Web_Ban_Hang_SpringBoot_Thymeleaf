@@ -33,7 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/staff/**").hasRole("STAFF")
                 .antMatchers("/user/**","/cart/**").hasRole("USER")
-                .and().formLogin().successHandler(customSuccessHandler)
+                .and().formLogin().loginPage("/login").successHandler(customSuccessHandler)
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/")
         ;

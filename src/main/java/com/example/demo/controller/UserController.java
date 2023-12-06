@@ -79,7 +79,7 @@ public class UserController {
 
     @GetMapping
     public ModelAndView homeViewUser(@RequestParam("regex") Optional<String> regex,
-                                     @SortDefault(sort = {"description"}) @PageableDefault(value = 20) Pageable pageable) {
+                                     @SortDefault(sort = {"description"}) @PageableDefault(value = 12) Pageable pageable) {
         Page<Product> products;
         ModelAndView modelAndView = new ModelAndView("user/home");
         if (regex.isPresent()) {
@@ -104,27 +104,6 @@ public class UserController {
         return new ModelAndView("user/information");
     }
 
-    @GetMapping("/information")
-    public ModelAndView informationUser() {
-        return new ModelAndView("user/editinformation");
-    }
-
-    @PostMapping("/information")
-    public ModelAndView updateInformationUser(@ModelAttribute("user") UserInfo userInfo) {
-        MultipartFile file = userInfo.getImage();
-        String image = file.getOriginalFilename();
-        String fileUpload = environment.getProperty("upload.path");
-        try {
-            FileCopyUtils.copy(file.getBytes(), new File(fileUpload + image));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (!Objects.equals(image, "")) {
-            userInfo.setAvatar(image);
-        }
-        userService.saveUser(userInfo);
-        return new ModelAndView("user/information");
-    }
 
     @GetMapping("/password")
     public ModelAndView passwordUser() {

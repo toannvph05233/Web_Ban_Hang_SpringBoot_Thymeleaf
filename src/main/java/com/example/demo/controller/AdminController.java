@@ -133,29 +133,6 @@ public class AdminController {
         return modelAndView;
     }
 
-    @GetMapping("/createstaff")
-    public ModelAndView registrationAdmin() {
-        return new ModelAndView("admin/registration", "user", new UserInfo());
-    }
-
-    @PostMapping("createstaff")
-    public ModelAndView registrationAccount(@ModelAttribute("user") UserInfo userInfo,
-                                            @SortDefault(value = {"id"}) @PageableDefault(value = 15) Pageable pageable) {
-        MultipartFile file = userInfo.getImage();
-        String image = file.getOriginalFilename();
-        String fileUpload = environment.getProperty("upload.path");
-        try {
-            FileCopyUtils.copy(file.getBytes(), new File(fileUpload + image));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        userInfo.setAvatar(image);
-        userInfo.setDatecreated(new Date());
-        userInfo.setRoles(rolesService.getRoleStaff());
-        userService.saveUser(userInfo);
-        Page<Product> listProducts = productService.findAll(pageable);
-        return new ModelAndView("admin/home", "products", listProducts);
-    }
 
     @GetMapping("/delete/{id}")
     public ModelAndView deleteProduct(@PathVariable("id") Long id,
